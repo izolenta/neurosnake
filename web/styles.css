@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Material+Icons);
+
+body {
+  max-width: 1200px;
+  padding: 1vw;
+}
+
+* {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}

@@ -1,0 +1,13 @@
+<div
+    class="board-canvas">
+    <div
+        *ngFor="let y of fieldIndexesHeight"
+        class="board-row">
+        <div
+            *ngFor="let x of fieldIndexesWidth"
+            class="board-cell"
+            [class.snake]="isSnakeAtCell(x, y)"
+            [class.food]="isFoodAtCell(x, y)">
+        </div>
+    </div>
+</div>

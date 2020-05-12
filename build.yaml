@@ -1,0 +1,22 @@
+targets:
+  $default:
+    builders:
+      less_dart:
+        options:
+          entry_points: ['*.less']
+          cleancss: true
+          compress: true
+      less_dart|less_source_cleanup:
+        options:
+          enabled: true
+      build_web_compilers|entrypoint:
+        generate_for:
+          - web/**.dart
+#        options:
+#          compiler: dart2js
+#          # List any dart2js specific args here, or omit it.
+#          dart2js_args:
+#          - --fast-startup
+#          - --minify
+#          - --trust-type-annotations
+#          - --trust-primitives

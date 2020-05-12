@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  .board-canvas {
+    padding: 5px;
+    background: black;
+    .board-row {
+      display: flex;
+      .board-cell {
+        width: 16px;
+        height: 16px;
+        background: white;
+        &.snake {
+          background: indigo;
+        }
+        &.food {
+          background: crimson;
+        }
+      }
+    }
+  }
+}
