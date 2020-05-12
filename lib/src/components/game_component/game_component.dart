@@ -58,7 +58,7 @@ class GameComponent implements OnDestroy {
         document.onKeyDown.listen(_onKeyPress),
       ]);
     });
-    _gameTimer = Timer.periodic(Duration(milliseconds: 30), _tick);
+    _gameTimer = Timer.periodic(Duration(milliseconds: 100), _tick);
   }
 
   @override
@@ -72,35 +72,38 @@ class GameComponent implements OnDestroy {
     if (event.keyCode == KeyCode.SPACE && !_selector.isGameInProgress(state)) {
       _dispatcher.dispatch(StartGameAction());
     }
-//    if (_selector.isGameInProgress(state)) {
-//      if (event.keyCode == KeyCode.UP) {
-//        _dispatcher.dispatch(ChangeDirectionAction(Direction.up));
-//      }
-//      if (event.keyCode == KeyCode.DOWN) {
-//        _dispatcher.dispatch(ChangeDirectionAction(Direction.down));
-//      }
-//      if (event.keyCode == KeyCode.LEFT) {
-//        _dispatcher.dispatch(ChangeDirectionAction(Direction.left));
-//      }
-//      if (event.keyCode == KeyCode.RIGHT) {
-//        _dispatcher.dispatch(ChangeDirectionAction(Direction.right));
-//      }
-//    }
+    if (_selector.isGameInProgress(state) && _selector.isHumanGameMode(state)) {
+      if (event.keyCode == KeyCode.UP) {
+        _dispatcher.dispatch(ChangeDirectionAction(Direction.up));
+      }
+      if (event.keyCode == KeyCode.DOWN) {
+        _dispatcher.dispatch(ChangeDirectionAction(Direction.down));
+      }
+      if (event.keyCode == KeyCode.LEFT) {
+        _dispatcher.dispatch(ChangeDirectionAction(Direction.left));
+      }
+      if (event.keyCode == KeyCode.RIGHT) {
+        _dispatcher.dispatch(ChangeDirectionAction(Direction.right));
+      }
+    }
   }
 
-  void _tick(Timer timer) {
+  Future _tick(Timer timer) async {
     if (_selector.isGameInProgress(state)) {
-      final input = _selector.getInputCondition(state, _selector.getSnakeBodyIndexes(state).first);
-      final direction = _service.getDirection(input);
-      _dispatcher.dispatch(ChangeDirectionAction(direction));
-      Future.delayed(Duration(milliseconds: 10)).then((_) =>_dispatcher.dispatch(TickAction()));
+      if (!_selector.isHumanGameMode(state)) {
+        final input = _selector.getInputCondition(state, _selector.getSnakeBodyIndexes(state).first);
+        final direction = _service.getDirection(input);
+        _dispatcher.dispatch(ChangeDirectionAction(direction));
+        await Future.delayed(Duration(milliseconds: 10));
+      }
+      _dispatcher.dispatch(TickAction());
       _wasInProgress = true;
     }
-//    else {
-//      if (_wasInProgress) {
-//        _wasInProgress = false;
-//        _dispatcher.dispatch(GameOverAction());
-//      }
-//    }
+    else {
+      if (_wasInProgress && _selector.isHumanGameMode(state)) {
+        _wasInProgress = false;
+        _dispatcher.dispatch(GameOverAction());
+      }
+    }
   }
 }

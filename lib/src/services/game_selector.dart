@@ -15,6 +15,8 @@ class GameSelector {
 
   bool isGameInProgress(GameState state) => state.currentPhase == GamePhase.inProgress;
 
+  bool isHumanGameMode(GameState state) => state.isHumanMode;
+
   InputCondition getInputCondition(GameState state, int newHead) {
     return InputCondition(
       leftObstacle: _getLeftObstacle(newHead, state),
