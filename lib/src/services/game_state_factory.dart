@@ -9,6 +9,7 @@ class GameStateFactory {
           ..currentPhase = GamePhase.notStarted
           ..snakeCoords.replace([])
           ..currentDirection = Direction.up
+          ..prevDirection = Direction.up
           ..foodCoords = -1
           ..inputConditions.replace([])
           ..movesCount = 0

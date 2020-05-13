@@ -15,6 +15,8 @@ abstract class GameState implements Built<GameState, GameStateBuilder> {
 
   Direction get currentDirection;
 
+  Direction get prevDirection;
+
   BuiltList<int> get snakeCoords;
 
   GamePhase get currentPhase;

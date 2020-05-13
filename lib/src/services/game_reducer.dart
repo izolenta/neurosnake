@@ -9,6 +9,7 @@ import 'package:neurosnake/src/models/game_phase.dart';
 import 'package:neurosnake/src/models/input_condition.dart';
 import 'package:neurosnake/src/services/game_selector.dart';
 import 'package:neurosnake/src/state/game_state.dart';
+import 'package:neurosnake/src/utils/calc_helper.dart';
 import 'package:redux/redux.dart';
 
 import '../constants.dart';
@@ -41,6 +42,7 @@ class GameReducer {
         ..movesCount = 0
         ..currentDirection = Direction.up
         ..snakeCoords.replace(snake)
+        ..prevDirection = Direction.up
         ..foodCoords = _createFoodCoords(snake);
     });
 
@@ -90,8 +92,11 @@ class GameReducer {
         }
         if (s.currentPhase == GamePhase.inProgress) {
           snake.insert(0, newHead);
-          s.inputConditions.add(_selector.getInputCondition(state, newHead));
+          final cond = _selector.getInputCondition(state, newHead);
+          print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
+          s.inputConditions.add(cond);
           s.outputConditions.add(state.currentDirection);
+          s.prevDirection = s.currentDirection;
         }
         if (_selector.getFoodIndex(state) != newHead) {
           snake.removeLast();

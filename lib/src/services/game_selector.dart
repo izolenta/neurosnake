@@ -23,7 +23,7 @@ class GameSelector {
       rightObstacle: _getRightObstacle(newHead, state),
       foodDistanceByX: _getFoodDistanceX(newHead, state),
       foodDistanceByY: _getFoodDistanceY(newHead, state),
-      currentHeading: state.currentDirection,
+      currentHeading: state.prevDirection,
       downObstacle: _getDownObstacle(newHead, state),
       upObstacle: _getUpObstacle(newHead, state),
     );

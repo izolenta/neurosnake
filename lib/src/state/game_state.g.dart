@@ -10,6 +10,8 @@ class _$GameState extends GameState {
   @override
   final Direction currentDirection;
   @override
+  final Direction prevDirection;
+  @override
   final BuiltList<int> snakeCoords;
   @override
   final GamePhase currentPhase;
@@ -29,6 +31,7 @@ class _$GameState extends GameState {
 
   _$GameState._(
       {this.currentDirection,
+      this.prevDirection,
       this.snakeCoords,
       this.currentPhase,
       this.isHumanMode,
@@ -39,6 +42,9 @@ class _$GameState extends GameState {
       : super._() {
     if (currentDirection == null) {
       throw new BuiltValueNullFieldError('GameState', 'currentDirection');
+    }
+    if (prevDirection == null) {
+      throw new BuiltValueNullFieldError('GameState', 'prevDirection');
     }
     if (snakeCoords == null) {
       throw new BuiltValueNullFieldError('GameState', 'snakeCoords');
@@ -75,6 +81,7 @@ class _$GameState extends GameState {
     if (identical(other, this)) return true;
     return other is GameState &&
         currentDirection == other.currentDirection &&
+        prevDirection == other.prevDirection &&
         snakeCoords == other.snakeCoords &&
         currentPhase == other.currentPhase &&
         isHumanMode == other.isHumanMode &&
@@ -92,7 +99,9 @@ class _$GameState extends GameState {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc(0, currentDirection.hashCode),
+                            $jc(
+                                $jc($jc(0, currentDirection.hashCode),
+                                    prevDirection.hashCode),
                                 snakeCoords.hashCode),
                             currentPhase.hashCode),
                         isHumanMode.hashCode),
@@ -106,6 +115,7 @@ class _$GameState extends GameState {
   String toString() {
     return (newBuiltValueToStringHelper('GameState')
           ..add('currentDirection', currentDirection)
+          ..add('prevDirection', prevDirection)
           ..add('snakeCoords', snakeCoords)
           ..add('currentPhase', currentPhase)
           ..add('isHumanMode', isHumanMode)
@@ -124,6 +134,11 @@ class GameStateBuilder implements Builder<GameState, GameStateBuilder> {
   Direction get currentDirection => _$this._currentDirection;
   set currentDirection(Direction currentDirection) =>
       _$this._currentDirection = currentDirection;
+
+  Direction _prevDirection;
+  Direction get prevDirection => _$this._prevDirection;
+  set prevDirection(Direction prevDirection) =>
+      _$this._prevDirection = prevDirection;
 
   ListBuilder<int> _snakeCoords;
   ListBuilder<int> get snakeCoords =>
@@ -165,6 +180,7 @@ class GameStateBuilder implements Builder<GameState, GameStateBuilder> {
   GameStateBuilder get _$this {
     if (_$v != null) {
       _currentDirection = _$v.currentDirection;
+      _prevDirection = _$v.prevDirection;
       _snakeCoords = _$v.snakeCoords?.toBuilder();
       _currentPhase = _$v.currentPhase;
       _isHumanMode = _$v.isHumanMode;
@@ -197,6 +213,7 @@ class GameStateBuilder implements Builder<GameState, GameStateBuilder> {
       _$result = _$v ??
           new _$GameState._(
               currentDirection: currentDirection,
+              prevDirection: prevDirection,
               snakeCoords: snakeCoords.build(),
               currentPhase: currentPhase,
               isHumanMode: isHumanMode,
