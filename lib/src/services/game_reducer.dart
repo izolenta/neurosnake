@@ -6,7 +6,6 @@ import 'package:neurosnake/src/actions/start_game_action.dart';
 import 'package:neurosnake/src/actions/tick_action.dart';
 import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/game_phase.dart';
-import 'package:neurosnake/src/models/input_condition.dart';
 import 'package:neurosnake/src/services/game_selector.dart';
 import 'package:neurosnake/src/state/game_state.dart';
 import 'package:neurosnake/src/utils/calc_helper.dart';
@@ -95,7 +94,7 @@ class GameReducer {
           final cond = _selector.getInputCondition(state, newHead);
           print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
           s.inputConditions.add(cond);
-          s.outputConditions.add(state.currentDirection);
+          s.outputConditions.add(s.currentDirection);
           s.prevDirection = s.currentDirection;
         }
         if (_selector.getFoodIndex(state) != newHead) {

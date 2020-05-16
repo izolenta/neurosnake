@@ -8,11 +8,21 @@ class Direction {
     up, right, down, left
   ];
 
+  static Direction parse(int input) {
+    if (input == null) {
+      return null;
+    }
+
+    final parsedValue = values.firstWhere((v) => v._value == input, orElse: () => null);
+    return parsedValue;
+  }
+
   final int _value;
 
   const Direction._internal(this._value);
 
   int get value => _value;
+
 
   @override
   String toString() => _value.toString();

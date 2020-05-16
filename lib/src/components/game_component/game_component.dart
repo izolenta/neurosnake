@@ -8,7 +8,6 @@ import 'package:neurosnake/src/actions/start_game_action.dart';
 import 'package:neurosnake/src/actions/tick_action.dart';
 import 'package:neurosnake/src/components/game_component/board_component/board_component.dart';
 import 'package:neurosnake/src/models/direction.dart';
-import 'package:neurosnake/src/models/input_condition.dart';
 import 'package:neurosnake/src/services/game_dispatcher.dart';
 import 'package:neurosnake/src/services/game_providers.dart';
 import 'package:neurosnake/src/services/game_selector.dart';

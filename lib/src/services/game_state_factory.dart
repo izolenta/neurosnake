@@ -5,7 +5,7 @@ import 'package:neurosnake/src/state/game_state.dart';
 class GameStateFactory {
   GameState getInitialState() =>
       GameState((c) => c
-          ..isHumanMode = false
+          ..isHumanMode = true
           ..currentPhase = GamePhase.notStarted
           ..snakeCoords.replace([])
           ..currentDirection = Direction.up
