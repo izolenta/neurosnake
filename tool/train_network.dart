@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:neurosnake/src/constants.dart';
 import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/game_phase.dart';
+import 'package:neurosnake/src/models/input_condition.dart';
 import 'package:neurosnake/src/services/game_selector.dart';
 import 'package:neurosnake/src/state/game_state.dart';
 import 'package:neurosnake/src/utils/calc_helper.dart';
@@ -10,51 +11,62 @@ import 'package:perceptron/perceptron.dart';
 
 final rand = Random();
 
-const jsonData = '{"netConfiguration":[5,16,4],"activationFunction":"sigmoid","synapses":[{"layer":0,"origin":0,"destination":0,"weight":-1.1498527785780088},{"layer":0,"origin":0,"destination":1,"weight":-0.3462787739173763},{"layer":0,"origin":0,"destination":2,"weight":1.0417233195381177},{"layer":0,"origin":0,"destination":3,"weight":0.07988642971238413},{"layer":0,"origin":0,"destination":4,"weight":-0.29859130424813707},{"layer":0,"origin":0,"destination":5,"weight":-0.9613885147776364},{"layer":0,"origin":0,"destination":6,"weight":-0.25110350149767063},{"layer":0,"origin":0,"destination":7,"weight":-0.42736665357878434},{"layer":0,"origin":0,"destination":8,"weight":-0.5390161692442702},{"layer":0,"origin":0,"destination":9,"weight":-0.2262795087252435},{"layer":0,"origin":0,"destination":10,"weight":2.448446470164927},{"layer":0,"origin":0,"destination":11,"weight":-1.1813090902997645},{"layer":0,"origin":0,"destination":12,"weight":-1.6473613868850805},{"layer":0,"origin":0,"destination":13,"weight":-0.1815238567152803},{"layer":0,"origin":0,"destination":14,"weight":0.024777557430376212},{"layer":0,"origin":0,"destination":15,"weight":-1.0878876431670637},{"layer":0,"origin":1,"destination":0,"weight":6.357066919774489},{"layer":0,"origin":1,"destination":1,"weight":-6.082509883354641},{"layer":0,"origin":1,"destination":2,"weight":2.0997790427785006},{"layer":0,"origin":1,"destination":3,"weight":-2.2675798123425186},{"layer":0,"origin":1,"destination":4,"weight":-2.308622375029318},{"layer":0,"origin":1,"destination":5,"weight":1.0980449476355707},{"layer":0,"origin":1,"destination":6,"weight":2.408070249172884},{"layer":0,"origin":1,"destination":7,"weight":-1.8935693638145035},{"layer":0,"origin":1,"destination":8,"weight":-6.145033184481533},{"layer":0,"origin":1,"destination":9,"weight":2.7341987776884498},{"layer":0,"origin":1,"destination":10,"weight":5.171855363561226},{"layer":0,"origin":1,"destination":11,"weight":-0.9943764991440397},{"layer":0,"origin":1,"destination":12,"weight":4.715494889851053},{"layer":0,"origin":1,"destination":13,"weight":4.747709824627831},{"layer":0,"origin":1,"destination":14,"weight":6.584881138356793},{"layer":0,"origin":1,"destination":15,"weight":10.2409741450886},{"layer":0,"origin":2,"destination":0,"weight":7.600474987853101},{"layer":0,"origin":2,"destination":1,"weight":-5.837935498275874},{"layer":0,"origin":2,"destination":2,"weight":7.81616250359268},{"layer":0,"origin":2,"destination":3,"weight":5.551530566987788},{"layer":0,"origin":2,"destination":4,"weight":5.1805055535277695},{"layer":0,"origin":2,"destination":5,"weight":-5.6338360777082706},{"layer":0,"origin":2,"destination":6,"weight":6.8834109847243194},{"layer":0,"origin":2,"destination":7,"weight":-0.5420658110434424},{"layer":0,"origin":2,"destination":8,"weight":1.5219537402352137},{"layer":0,"origin":2,"destination":9,"weight":-3.804955772076667},{"layer":0,"origin":2,"destination":10,"weight":-5.808195076695923},{"layer":0,"origin":2,"destination":11,"weight":3.383622961924806},{"layer":0,"origin":2,"destination":12,"weight":-5.490161542508463},{"layer":0,"origin":2,"destination":13,"weight":3.875252447751809},{"layer":0,"origin":2,"destination":14,"weight":0.7527378879210876},{"layer":0,"origin":2,"destination":15,"weight":-4.096619522744927},{"layer":0,"origin":3,"destination":0,"weight":-4.818597402698902},{"layer":0,"origin":3,"destination":1,"weight":-7.263075982151752},{"layer":0,"origin":3,"destination":2,"weight":-5.171586031776891},{"layer":0,"origin":3,"destination":3,"weight":-3.364932462607074},{"layer":0,"origin":3,"destination":4,"weight":-3.397836226490657},{"layer":0,"origin":3,"destination":5,"weight":-4.422212889685892},{"layer":0,"origin":3,"destination":6,"weight":2.8589423957223192},{"layer":0,"origin":3,"destination":7,"weight":6.563416296626052},{"layer":0,"origin":3,"destination":8,"weight":9.125029208443799},{"layer":0,"origin":3,"destination":9,"weight":4.049927526327625},{"layer":0,"origin":3,"destination":10,"weight":-5.380253576206887},{"layer":0,"origin":3,"destination":11,"weight":-0.08033901180484318},{"layer":0,"origin":3,"destination":12,"weight":-5.208555095099206},{"layer":0,"origin":3,"destination":13,"weight":10.974134552528872},{"layer":0,"origin":3,"destination":14,"weight":1.1592485256914498},{"layer":0,"origin":3,"destination":15,"weight":-0.2424881355394671},{"layer":0,"origin":4,"destination":0,"weight":5.748413208313833},{"layer":0,"origin":4,"destination":1,"weight":-0.17402639123550181},{"layer":0,"origin":4,"destination":2,"weight":-0.053531210103957616},{"layer":0,"origin":4,"destination":3,"weight":0.5385736948023562},{"layer":0,"origin":4,"destination":4,"weight":-1.604616525622828},{"layer":0,"origin":4,"destination":5,"weight":-1.3896174579041027},{"layer":0,"origin":4,"destination":6,"weight":0.7266786924029185},{"layer":0,"origin":4,"destination":7,"weight":-1.3743771387319565},{"layer":0,"origin":4,"destination":8,"weight":8.035252108455625},{"layer":0,"origin":4,"destination":9,"weight":6.42838543847615},{"layer":0,"origin":4,"destination":10,"weight":-3.5988350547440757},{"layer":0,"origin":4,"destination":11,"weight":-2.0427302385156048},{"layer":0,"origin":4,"destination":12,"weight":-3.406669743752042},{"layer":0,"origin":4,"destination":13,"weight":4.13355395961715},{"layer":0,"origin":4,"destination":14,"weight":-0.17082612510203826},{"layer":0,"origin":4,"destination":15,"weight":8.880755889453592},{"layer":0,"origin":5,"destination":0,"weight":-17.42926656766703},{"layer":0,"origin":5,"destination":1,"weight":-1.7932662778336024},{"layer":0,"origin":5,"destination":2,"weight":-12.448867634279898},{"layer":0,"origin":5,"destination":3,"weight":-7.957128900246562},{"layer":0,"origin":5,"destination":4,"weight":-7.516709221131014},{"layer":0,"origin":5,"destination":5,"weight":-3.681645633982035},{"layer":0,"origin":5,"destination":6,"weight":-10.88326290918868},{"layer":0,"origin":5,"destination":7,"weight":-8.140486853714481},{"layer":0,"origin":5,"destination":8,"weight":-15.883287006425292},{"layer":0,"origin":5,"destination":9,"weight":-12.760856683967729},{"layer":0,"origin":5,"destination":10,"weight":-8.501184075878356},{"layer":0,"origin":5,"destination":11,"weight":-5.68476397567259},{"layer":0,"origin":5,"destination":12,"weight":-5.907448856495767},{"layer":0,"origin":5,"destination":13,"weight":-17.403770552542397},{"layer":0,"origin":5,"destination":14,"weight":-8.788034125244476},{"layer":0,"origin":5,"destination":15,"weight":-15.831679395990138},{"layer":1,"origin":0,"destination":0,"weight":-1.98371294412036},{"layer":1,"origin":0,"destination":1,"weight":-0.9298486765630684},{"layer":1,"origin":0,"destination":2,"weight":5.747122647151511},{"layer":1,"origin":0,"destination":3,"weight":-5.625347852987126},{"layer":1,"origin":1,"destination":0,"weight":-2.43928884202216},{"layer":1,"origin":1,"destination":1,"weight":-3.774704809689473},{"layer":1,"origin":1,"destination":2,"weight":-5.784493249690031},{"layer":1,"origin":1,"destination":3,"weight":-28.554427358488958},{"layer":1,"origin":2,"destination":0,"weight":-0.4546236633372721},{"layer":1,"origin":2,"destination":1,"weight":-13.940816330629229},{"layer":1,"origin":2,"destination":2,"weight":0.6298851822402718},{"layer":1,"origin":2,"destination":3,"weight":-0.6207273632611346},{"layer":1,"origin":3,"destination":0,"weight":-0.8770430207996834},{"layer":1,"origin":3,"destination":1,"weight":-10.649748569904535},{"layer":1,"origin":3,"destination":2,"weight":-0.024223663377324678},{"layer":1,"origin":3,"destination":3,"weight":-19.29310290222601},{"layer":1,"origin":4,"destination":0,"weight":-1.0644698943330213},{"layer":1,"origin":4,"destination":1,"weight":-15.689334102704011},{"layer":1,"origin":4,"destination":2,"weight":-0.01299198489405455},{"layer":1,"origin":4,"destination":3,"weight":-11.838639016931724},{"layer":1,"origin":5,"destination":0,"weight":-0.3689521249218326},{"layer":1,"origin":5,"destination":1,"weight":0.36465136189760666},{"layer":1,"origin":5,"destination":2,"weight":-6.5345179947538785},{"layer":1,"origin":5,"destination":3,"weight":-1.932221663103437},{"layer":1,"origin":6,"destination":0,"weight":1.9244756713253401},{"layer":1,"origin":6,"destination":1,"weight":-19.87279617947176},{"layer":1,"origin":6,"destination":2,"weight":3.2072890799525777},{"layer":1,"origin":6,"destination":3,"weight":1.3733931620012174},{"layer":1,"origin":7,"destination":0,"weight":-0.5811806071680687},{"layer":1,"origin":7,"destination":1,"weight":-2.298733025263926},{"layer":1,"origin":7,"destination":2,"weight":-26.068635213149005},{"layer":1,"origin":7,"destination":3,"weight":-0.3222649724237344},{"layer":1,"origin":8,"destination":0,"weight":0.5843846099121934},{"layer":1,"origin":8,"destination":1,"weight":-1.4556618543869517},{"layer":1,"origin":8,"destination":2,"weight":-4.61798280251407},{"layer":1,"origin":8,"destination":3,"weight":-11.648682754363355},{"layer":1,"origin":9,"destination":0,"weight":5.329857712701879},{"layer":1,"origin":9,"destination":1,"weight":2.5260524412657928},{"layer":1,"origin":9,"destination":2,"weight":-1.4842533415072394},{"layer":1,"origin":9,"destination":3,"weight":-1.3194752404822059},{"layer":1,"origin":10,"destination":0,"weight":-10.185401504595307},{"layer":1,"origin":10,"destination":1,"weight":0.741857235647945},{"layer":1,"origin":10,"destination":2,"weight":-1.4354629728620047},{"layer":1,"origin":10,"destination":3,"weight":-0.23116583220088632},{"layer":1,"origin":11,"destination":0,"weight":-0.00667122702353585},{"layer":1,"origin":11,"destination":1,"weight":-14.105195014975273},{"layer":1,"origin":11,"destination":2,"weight":1.8352678450845268},{"layer":1,"origin":11,"destination":3,"weight":-1.3049576590644418},{"layer":1,"origin":12,"destination":0,"weight":-5.507928641654215},{"layer":1,"origin":12,"destination":1,"weight":1.3620055540208609},{"layer":1,"origin":12,"destination":2,"weight":-1.8762247330880375},{"layer":1,"origin":12,"destination":3,"weight":-0.20113285268880754},{"layer":1,"origin":13,"destination":0,"weight":4.525125635736079},{"layer":1,"origin":13,"destination":1,"weight":1.350801412170375},{"layer":1,"origin":13,"destination":2,"weight":-26.69532315998686},{"layer":1,"origin":13,"destination":3,"weight":3.544033339538257},{"layer":1,"origin":14,"destination":0,"weight":-34.64349063649467},{"layer":1,"origin":14,"destination":1,"weight":2.8275504579272646},{"layer":1,"origin":14,"destination":2,"weight":2.482519383484035},{"layer":1,"origin":14,"destination":3,"weight":3.0087522035113063},{"layer":1,"origin":15,"destination":0,"weight":-7.266866578752606},{"layer":1,"origin":15,"destination":1,"weight":2.2562678317249016},{"layer":1,"origin":15,"destination":2,"weight":-1.5867450840280286},{"layer":1,"origin":15,"destination":3,"weight":-7.953918976684937},{"layer":1,"origin":16,"destination":0,"weight":1.4230741225168484},{"layer":1,"origin":16,"destination":1,"weight":-1.0655911746450182},{"layer":1,"origin":16,"destination":2,"weight":-0.8652806070729293},{"layer":1,"origin":16,"destination":3,"weight":-2.5283034153177346}]}';
+const jsonData = '{"netConfiguration":[8,10,4],"activationFunction":"sigmoid","synapses":[{"layer":0,"origin":0,"destination":0,"weight":-2.856667523158452},{"layer":0,"origin":0,"destination":1,"weight":0.6140454825309313},{"layer":0,"origin":0,"destination":2,"weight":-17.41266187103688},{"layer":0,"origin":0,"destination":3,"weight":4.83650029775406},{"layer":0,"origin":0,"destination":4,"weight":-10.202403565269854},{"layer":0,"origin":0,"destination":5,"weight":-1.6882074261517452},{"layer":0,"origin":0,"destination":6,"weight":-2.2449054400687545},{"layer":0,"origin":0,"destination":7,"weight":-0.8052350616247449},{"layer":0,"origin":0,"destination":8,"weight":-23.526579519408855},{"layer":0,"origin":0,"destination":9,"weight":9.377547098018738},{"layer":0,"origin":1,"destination":0,"weight":11.97600713913978},{"layer":0,"origin":1,"destination":1,"weight":-1.145797725505079},{"layer":0,"origin":1,"destination":2,"weight":-0.3849187360205587},{"layer":0,"origin":1,"destination":3,"weight":4.305188024391064},{"layer":0,"origin":1,"destination":4,"weight":-0.34124656072287635},{"layer":0,"origin":1,"destination":5,"weight":2.078332376456456},{"layer":0,"origin":1,"destination":6,"weight":-7.359725128581983},{"layer":0,"origin":1,"destination":7,"weight":2.504747230745567},{"layer":0,"origin":1,"destination":8,"weight":7.258178741633862},{"layer":0,"origin":1,"destination":9,"weight":-29.817144237854894},{"layer":0,"origin":2,"destination":0,"weight":-11.889666248418152},{"layer":0,"origin":2,"destination":1,"weight":-12.205323311556986},{"layer":0,"origin":2,"destination":2,"weight":-1.1214921300554948},{"layer":0,"origin":2,"destination":3,"weight":-10.752418884111004},{"layer":0,"origin":2,"destination":4,"weight":-1.2585868615364315},{"layer":0,"origin":2,"destination":5,"weight":-11.795400351566004},{"layer":0,"origin":2,"destination":6,"weight":-4.1340572596824305},{"layer":0,"origin":2,"destination":7,"weight":5.454544235991095},{"layer":0,"origin":2,"destination":8,"weight":7.028436761192779},{"layer":0,"origin":2,"destination":9,"weight":-0.1510974881033568},{"layer":0,"origin":3,"destination":0,"weight":2.0520620113355363},{"layer":0,"origin":3,"destination":1,"weight":0.91274597930512},{"layer":0,"origin":3,"destination":2,"weight":7.297511073274349},{"layer":0,"origin":3,"destination":3,"weight":1.5623864719343092},{"layer":0,"origin":3,"destination":4,"weight":0.1323761460506402},{"layer":0,"origin":3,"destination":5,"weight":0.389013081660204},{"layer":0,"origin":3,"destination":6,"weight":0.06094263745971876},{"layer":0,"origin":3,"destination":7,"weight":-15.786681827894244},{"layer":0,"origin":3,"destination":8,"weight":6.315309305114257},{"layer":0,"origin":3,"destination":9,"weight":6.136732925363178},{"layer":0,"origin":4,"destination":0,"weight":-0.6911331569512187},{"layer":0,"origin":4,"destination":1,"weight":-6.827949678633116},{"layer":0,"origin":4,"destination":2,"weight":9.803605278018438},{"layer":0,"origin":4,"destination":3,"weight":0.44498518355467326},{"layer":0,"origin":4,"destination":4,"weight":8.514022952382419},{"layer":0,"origin":4,"destination":5,"weight":-3.6324581477902744},{"layer":0,"origin":4,"destination":6,"weight":-2.6686348657425856},{"layer":0,"origin":4,"destination":7,"weight":0.03638511200328367},{"layer":0,"origin":4,"destination":8,"weight":4.8765848450200275},{"layer":0,"origin":4,"destination":9,"weight":-1.0013697965833739},{"layer":0,"origin":5,"destination":0,"weight":-3.3020850434700773},{"layer":0,"origin":5,"destination":1,"weight":-9.431591762349617},{"layer":0,"origin":5,"destination":2,"weight":-6.2461284706406826},{"layer":0,"origin":5,"destination":3,"weight":-2.403375253724128},{"layer":0,"origin":5,"destination":4,"weight":-1.1911335727397914},{"layer":0,"origin":5,"destination":5,"weight":-3.568279024665606},{"layer":0,"origin":5,"destination":6,"weight":7.648957933290128},{"layer":0,"origin":5,"destination":7,"weight":-10.269859176231074},{"layer":0,"origin":5,"destination":8,"weight":-3.65407151914955},{"layer":0,"origin":5,"destination":9,"weight":6.5130427955848225},{"layer":0,"origin":6,"destination":0,"weight":1.0919819575890137},{"layer":0,"origin":6,"destination":1,"weight":8.810508696263888},{"layer":0,"origin":6,"destination":2,"weight":-1.4199148349256139},{"layer":0,"origin":6,"destination":3,"weight":3.9267666985912335},{"layer":0,"origin":6,"destination":4,"weight":-8.74639524151086},{"layer":0,"origin":6,"destination":5,"weight":6.8828274859682335},{"layer":0,"origin":6,"destination":6,"weight":3.889127291587607},{"layer":0,"origin":6,"destination":7,"weight":-5.089315488702837},{"layer":0,"origin":6,"destination":8,"weight":-3.7641064075797424},{"layer":0,"origin":6,"destination":9,"weight":-1.7946421096496707},{"layer":0,"origin":7,"destination":0,"weight":-0.11663630530969236},{"layer":0,"origin":7,"destination":1,"weight":1.4929004025508437},{"layer":0,"origin":7,"destination":2,"weight":-1.4081879472204542},{"layer":0,"origin":7,"destination":3,"weight":-3.231365377703745},{"layer":0,"origin":7,"destination":4,"weight":-1.1023557366848777},{"layer":0,"origin":7,"destination":5,"weight":-0.8293953705723677},{"layer":0,"origin":7,"destination":6,"weight":-1.5083287432750778},{"layer":0,"origin":7,"destination":7,"weight":10.255051423937909},{"layer":0,"origin":7,"destination":8,"weight":1.3934107206026476},{"layer":0,"origin":7,"destination":9,"weight":-7.482845498875189},{"layer":0,"origin":8,"destination":0,"weight":-0.7197546039394277},{"layer":0,"origin":8,"destination":1,"weight":-6.313858631989207},{"layer":0,"origin":8,"destination":2,"weight":-2.130518740262748},{"layer":0,"origin":8,"destination":3,"weight":-4.975173383903068},{"layer":0,"origin":8,"destination":4,"weight":-2.5952870873772795},{"layer":0,"origin":8,"destination":5,"weight":-3.718125210247499},{"layer":0,"origin":8,"destination":6,"weight":-2.287785505204315},{"layer":0,"origin":8,"destination":7,"weight":-7.319961782178712},{"layer":0,"origin":8,"destination":8,"weight":0.9522377704051531},{"layer":0,"origin":8,"destination":9,"weight":-2.7226637448545348},{"layer":1,"origin":0,"destination":0,"weight":-0.928472500810503},{"layer":1,"origin":0,"destination":1,"weight":-3.738275668218135},{"layer":1,"origin":0,"destination":2,"weight":7.77017362619316},{"layer":1,"origin":0,"destination":3,"weight":-4.844931284662055},{"layer":1,"origin":1,"destination":0,"weight":-5.726323429073047},{"layer":1,"origin":1,"destination":1,"weight":-11.105886746902764},{"layer":1,"origin":1,"destination":2,"weight":11.100971015064808},{"layer":1,"origin":1,"destination":3,"weight":-5.785844553625096},{"layer":1,"origin":2,"destination":0,"weight":4.737346913705678},{"layer":1,"origin":2,"destination":1,"weight":-5.271130134315059},{"layer":1,"origin":2,"destination":2,"weight":-3.675056650975361},{"layer":1,"origin":2,"destination":3,"weight":-7.4138472523502035},{"layer":1,"origin":3,"destination":0,"weight":-3.5757759300727145},{"layer":1,"origin":3,"destination":1,"weight":-1.208837457793752},{"layer":1,"origin":3,"destination":2,"weight":4.5835299187501475},{"layer":1,"origin":3,"destination":3,"weight":-6.320169137120331},{"layer":1,"origin":4,"destination":0,"weight":10.371505244692067},{"layer":1,"origin":4,"destination":1,"weight":-8.909870670224562},{"layer":1,"origin":4,"destination":2,"weight":-4.307923860577613},{"layer":1,"origin":4,"destination":3,"weight":-8.572633185969519},{"layer":1,"origin":5,"destination":0,"weight":-7.932496434352514},{"layer":1,"origin":5,"destination":1,"weight":-1.0715177606537907},{"layer":1,"origin":5,"destination":2,"weight":5.749769904444193},{"layer":1,"origin":5,"destination":3,"weight":-2.502166882270449},{"layer":1,"origin":6,"destination":0,"weight":-4.828660122244477},{"layer":1,"origin":6,"destination":1,"weight":4.602831041922845},{"layer":1,"origin":6,"destination":2,"weight":1.251117998306024},{"layer":1,"origin":6,"destination":3,"weight":-3.0256194035701363},{"layer":1,"origin":7,"destination":0,"weight":-12.154551962362191},{"layer":1,"origin":7,"destination":1,"weight":-4.475208475387408},{"layer":1,"origin":7,"destination":2,"weight":-10.997585741196698},{"layer":1,"origin":7,"destination":3,"weight":14.158437670304028},{"layer":1,"origin":8,"destination":0,"weight":11.579290490246608},{"layer":1,"origin":8,"destination":1,"weight":-4.674148731153022},{"layer":1,"origin":8,"destination":2,"weight":-6.235842547990416},{"layer":1,"origin":8,"destination":3,"weight":-9.71438278759844},{"layer":1,"origin":9,"destination":0,"weight":-7.370787633551715},{"layer":1,"origin":9,"destination":1,"weight":12.303867694773123},{"layer":1,"origin":9,"destination":2,"weight":-6.392738501029035},{"layer":1,"origin":9,"destination":3,"weight":-11.458418020202119},{"layer":1,"origin":10,"destination":0,"weight":-7.688106255223809},{"layer":1,"origin":10,"destination":1,"weight":-7.673589319973611},{"layer":1,"origin":10,"destination":2,"weight":-8.423685826693859},{"layer":1,"origin":10,"destination":3,"weight":7.071160509584693}]}';
+
+const localBoardWidth = 7; //boardWidth;
+const localBoardHeight = 7; //boardHeight;
 
 void main(List args) {
-  final perceptron = Perceptron.fromJson(jsonData, 3);
+  final perceptron = Perceptron.fromJson(jsonData, 4);
+//  final perceptron = Perceptron([8, 10, 4], 10);
   final _selector = GameSelector();
   final data = <TrainingData>[];
-  for (var i=0; i<300000; i++) {
+  for (var i=0; i<100000; i++) {
     final state = createGameState();
     final snake = state.snakeCoords;
     final head = snake.first;
     var newHead;
-    final possibleTurns = <Direction, int>{};
-    final goodTurns = <Direction, int>{};
+    final possibleTurns = <Direction>[];
+    final goodTurns = <Direction>[];
+    final input = _selector.getInputCondition(state);
     for (var direction in Direction.values) {
       if (direction == Direction.up) {
-        newHead = head - boardWidth;
+        newHead = head - localBoardWidth;
         if (newHead < 0) {
           continue;
         }
       }
       if (direction == Direction.left) {
         newHead = head - 1;
-        if (newHead % boardWidth == boardWidth - 1) {
+        if (newHead % localBoardWidth == localBoardWidth - 1) {
           continue;
         }
       }
       if (direction == Direction.down) {
-        newHead = head + boardWidth;
-        if (newHead >= boardWidth * boardHeight) {
+        newHead = head + localBoardWidth;
+        if (newHead >= localBoardWidth * localBoardHeight) {
           continue;
         }
       }
       if (direction == Direction.right) {
         newHead = head + 1;
-        if (newHead % boardWidth == 0) {
+        if (newHead % localBoardWidth == 0) {
           continue;
         }
       }
       if (snake.contains(newHead)) {
         continue;
       }
-      if (_selector.getFoodAngle(head, state) > _selector.getFoodAngle(newHead, state)) {
-        goodTurns[direction] = newHead;
+//      var foodCoords = _selector.getCoords(state.foodCoords);
+//      var headCoords = _selector.getCoords(head);
+//      var newHeadCoords = _selector.getCoords(newHead);
+//      if ((foodCoords.x - newHeadCoords.x).abs() < (foodCoords.x - headCoords.x).abs() ||
+//          (foodCoords.y - newHeadCoords.y).abs() < (foodCoords.y - headCoords.y).abs()) {
+      if (_isGoodDirection(direction, input)) {
+        goodTurns.add(direction);
+        break;
       }
-      possibleTurns[direction] = newHead;
+      possibleTurns.add(direction);
     }
     if (goodTurns.isEmpty) {
       if (possibleTurns.isEmpty) {
@@ -64,10 +76,9 @@ void main(List args) {
         goodTurns.addAll(possibleTurns);
       }
     }
-    final changedDirection = goodTurns.keys.first;
+    final changedDirection = goodTurns.first;
 //    final changedHead = goodTurns[changedDirection];
-    final input = _selector.getInputCondition(state, head);
-//    print('${convertInputConditionToArray(input)}, ${convertDirectionToOutputArray(changedDirection)}');
+    print('${convertInputConditionToArray(input)}, ${convertDirectionToOutputArray(changedDirection)}');
 
     data.add(TrainingData(convertInputConditionToArray(input), convertDirectionToOutputArray(changedDirection)));
   }
@@ -75,16 +86,36 @@ void main(List args) {
   print(perceptron.toJson());
 }
 
+bool _isGoodDirection(Direction direction, InputCondition input) {
+  if (direction == Direction.up && input.foodDirection.up == 1) {
+    return true;
+  }
+  if (direction == Direction.left && input.foodDirection.left == 1) {
+    return true;
+  }
+  if (direction == Direction.down && input.foodDirection.down == 1) {
+    return true;
+  }
+  if (direction == Direction.right && input.foodDirection.right == 1) {
+    return true;
+  }
+  return false;
+}
+
 GameState createGameState() {
   final snake = _createSnakeCoords();
+  final food = _createFoodCoords();
+  if (snake.contains(food)) {
+    snake.remove(food);
+  }
   return GameState((c) =>
   c
     ..isHumanMode = true
     ..currentPhase = GamePhase.notStarted
     ..snakeCoords.replace([])
-    ..currentDirection = Direction.up
+    ..currentDirection = Direction.parse(rand.nextInt(4))
     ..prevDirection = Direction.up
-    ..foodCoords = _createFoodCoords(snake)
+    ..foodCoords = food
     ..inputConditions.replace([])
     ..movesCount = 0
     ..snakeCoords.replace(snake)
@@ -93,21 +124,20 @@ GameState createGameState() {
 
 List<int> _createSnakeCoords() {
   final result = <int>[];
-  final x = rand.nextInt(boardWidth);
-  final y = rand.nextInt(boardHeight-1) + 1;
-  for (var i = boardHeight - y; i < boardHeight - y + 1; i++) {
-    result.add(i * boardWidth + x);
+  final x = rand.nextInt(localBoardWidth);
+  final y = rand.nextInt(localBoardHeight-1) + 1;
+  for (var i = localBoardHeight - y; i < localBoardHeight - y + 1; i++) {
+    result.add(i * localBoardWidth + x);
   }
-  for (var i = 0; i < 1000; i++) {
-    result.add(rand.nextInt(boardHeight) * boardHeight + rand.nextInt(boardWidth));
+  for (var i = 0; i < localBoardHeight * localBoardWidth / 1.5; i++) {
+    result.add(rand.nextInt(localBoardHeight) * localBoardHeight + rand.nextInt(localBoardWidth));
   }
   return result;
 }
 
-int _createFoodCoords(List<int> bannedCells) {
-  var food;
-  do {
-    food = rand.nextInt(boardWidth * boardHeight);
-  } while (bannedCells.contains(food));
-  return food;
+int _createFoodCoords() {
+//  final x = rand.nextInt(2) * (localBoardWidth - 1);
+//  final y = rand.nextInt(2) * (localBoardHeight - 1);
+//  return y * localBoardWidth + x;
+  return rand.nextInt(localBoardWidth * localBoardHeight);
 }

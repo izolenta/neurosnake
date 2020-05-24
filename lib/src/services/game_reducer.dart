@@ -91,7 +91,7 @@ class GameReducer {
         }
         if (s.currentPhase == GamePhase.inProgress) {
           snake.insert(0, newHead);
-          final cond = _selector.getInputCondition(state, newHead);
+          final cond = _selector.getInputCondition(state);
           print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
           s.inputConditions.add(cond);
           s.outputConditions.add(s.currentDirection);

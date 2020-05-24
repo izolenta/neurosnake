@@ -1,17 +1,19 @@
 import 'package:meta/meta.dart';
+import 'package:neurosnake/src/models/direction.dart';
+import 'package:neurosnake/src/models/direction_state.dart';
 
 class InputCondition {
-  final int leftObstacle;
-  final int rightObstacle;
-  final int downObstacle;
-  final int upObstacle;
-  final double foodAngle;
+  final double leftObstacle;
+  final double rightObstacle;
+  final double downObstacle;
+  final double upObstacle;
+  final DirectionState foodDirection;
 
   InputCondition({
     @required this.leftObstacle,
     @required this.rightObstacle,
     @required this.downObstacle,
     @required this.upObstacle,
-    @required this.foodAngle,
+    @required this.foodDirection,
   });
 }

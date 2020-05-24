@@ -9,11 +9,14 @@ final maxDistance = sqrt(boardWidth*boardWidth + boardHeight*boardHeight);
 
 List<double> convertInputConditionToArray(InputCondition input) {
   return <double>[
-    input.foodAngle,
-    input.upObstacle.toDouble(),
-    input.rightObstacle.toDouble(),
-    input.downObstacle.toDouble(),
-    input.leftObstacle.toDouble(),
+    input.upObstacle,
+    input.rightObstacle,
+    input.downObstacle,
+    input.leftObstacle,
+    input.foodDirection.up.toDouble(),
+    input.foodDirection.right.toDouble(),
+    input.foodDirection.down.toDouble(),
+    input.foodDirection.left.toDouble(),
   ];
 }
 

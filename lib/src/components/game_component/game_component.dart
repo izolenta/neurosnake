@@ -57,7 +57,7 @@ class GameComponent implements OnDestroy {
         document.onKeyDown.listen(_onKeyPress),
       ]);
     });
-    _gameTimer = Timer.periodic(Duration(milliseconds: 100), _tick);
+    _gameTimer = Timer.periodic(Duration(milliseconds: _selector.isHumanGameMode(state)? 300 : 20), _tick);
   }
 
   @override
@@ -90,7 +90,7 @@ class GameComponent implements OnDestroy {
   Future _tick(Timer timer) async {
     if (_selector.isGameInProgress(state)) {
       if (!_selector.isHumanGameMode(state)) {
-        final input = _selector.getInputCondition(state, _selector.getSnakeBodyIndexes(state).first);
+        final input = _selector.getInputCondition(state);
         final direction = _service.getDirection(input);
         _dispatcher.dispatch(ChangeDirectionAction(direction));
         await Future.delayed(Duration(milliseconds: 10));
