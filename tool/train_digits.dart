@@ -17,7 +17,9 @@ void main(List args) async {
   print('$total, $width x $height');
   final perceptron = Perceptron([width * height, 16, 10], 5);
   final data = <TrainingData>[];
+  final watch = Stopwatch();
   for (var i=0; i<total; i++) {
+    watch.start();
     final inputs = <double>[];
     for (var j=0; j<width * height; j++) {
       inputs.add(imageData[imagePositionCounter] < 128? 0.0 : 1.0);
@@ -29,13 +31,15 @@ void main(List args) async {
     }
     labelPositionCounter++;
     data.add(TrainingData(inputs, outputs));
-    if (i % 200 == 0) {
+    if (i % 100 == 0) {
       perceptron.train(data);
       final file = File('training.prg');
       file.writeAsStringSync('Trained cases: $i\n');
       file.writeAsStringSync(perceptron.toJson());
       file.writeAsStringSync('\n', flush: true);
       data.clear();
+      watch.stop();
+      print('handled in ${watch.elapsed.inSeconds} sec');
     }
   }
   perceptron.train(data);
