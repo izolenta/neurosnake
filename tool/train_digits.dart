@@ -33,20 +33,22 @@ void main(List args) async {
     data.add(TrainingData(inputs, outputs));
     if (i % 100 == 0) {
       perceptron.train(data);
-      final file = File('training.prg');
-      file.writeAsStringSync('Trained cases: $i\n');
-      file.writeAsStringSync(perceptron.toJson());
-      file.writeAsStringSync('\n', flush: true);
+      final file = File('training.prg').openSync(mode: FileMode.write);
+      file.writeStringSync('Trained cases: $i\n');
+      file.writeStringSync(perceptron.toJson());
+      file.writeStringSync('\n');
+      file.closeSync();
       data.clear();
       watch.stop();
       print('handled in ${watch.elapsed.inSeconds} sec');
     }
   }
   perceptron.train(data);
-  final file = File('training.prg');
-  file.writeAsStringSync('Trained cases: $total\n');
-  file.writeAsStringSync(perceptron.toJson());
-  file.writeAsStringSync('\n', flush: true);
+  final file = File('training.prg').openSync(mode: FileMode.write);
+  file.writeStringSync('Trained cases: $total\n');
+  file.writeStringSync(perceptron.toJson());
+  file.writeStringSync('\n');
+  file.closeSync();
   print(perceptron.toJson());
 }
 
