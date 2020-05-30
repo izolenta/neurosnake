@@ -34,7 +34,7 @@ void main(List args) async {
       final file = File('training.prg');
       file.writeAsStringSync('Trained cases: $i\n');
       file.writeAsStringSync(perceptron.toJson());
-      file.writeAsStringSync('\n');
+      file.writeAsStringSync('\n', flush: true);
       data.clear();
     }
   }
@@ -42,7 +42,7 @@ void main(List args) async {
   final file = File('training.prg');
   file.writeAsStringSync('Trained cases: $total\n');
   file.writeAsStringSync(perceptron.toJson());
-  file.writeAsStringSync('\n');
+  file.writeAsStringSync('\n', flush: true);
   print(perceptron.toJson());
 }
 
