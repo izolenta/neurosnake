@@ -59,8 +59,8 @@ class GameReducer {
         final head = snake.first;
         var newHead;
         final cond = _selector.getInputCondition(state);
-        print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
-        print('curdir: ${state.currentDirection}');
+ //       print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
+ //       print('curdir: ${state.currentDirection}');
         switch (state.currentDirection) {
           case Direction.up:
             newHead = head - boardWidth;
