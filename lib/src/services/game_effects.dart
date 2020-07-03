@@ -24,7 +24,8 @@ class GameEffects {
 
   Stream<Object> _onTick(Stream<TickAction> actions, EpicStore<GameState> store) =>
       Observable(actions).asyncExpand((action) async* {
-        if (_selector.getSnakeBodyIndexes(store.state).first == _selector.getFoodIndex(store.state)) {
+        if (_selector.getSnakeBodyIndexes(store.state).contains(_selector.getFoodIndex(store.state))) {
+          print('cfood');
           yield CreateFoodAction();
         }
       });

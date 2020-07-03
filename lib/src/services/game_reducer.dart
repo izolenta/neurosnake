@@ -58,6 +58,9 @@ class GameReducer {
         final snake = _selector.getSnakeBodyIndexes(state);
         final head = snake.first;
         var newHead;
+        final cond = _selector.getInputCondition(state);
+        print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
+        print('curdir: ${state.currentDirection}');
         switch (state.currentDirection) {
           case Direction.up:
             newHead = head - boardWidth;
@@ -91,8 +94,6 @@ class GameReducer {
         }
         if (s.currentPhase == GamePhase.inProgress) {
           snake.insert(0, newHead);
-          final cond = _selector.getInputCondition(state);
-          print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
           s.inputConditions.add(cond);
           s.outputConditions.add(s.currentDirection);
           s.prevDirection = s.currentDirection;

@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/direction_state.dart';
 
 class InputCondition {

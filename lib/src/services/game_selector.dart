@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:built_value/built_value.dart';
-import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/direction_state.dart';
 import 'package:neurosnake/src/models/game_phase.dart';
 import 'package:neurosnake/src/models/input_condition.dart';
