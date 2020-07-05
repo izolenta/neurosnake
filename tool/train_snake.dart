@@ -23,33 +23,26 @@ void main(List args) {
   final data = <TrainingData>[];
   for (var i=0; i<1000000; i++) {
     final state = createGameState(i%5 == 0? 1 : i%7 == 0? 2 : 0);
-    final snake = state.snakeCoords;
-    final head = snake.first;
-    var newHead;
     final possibleTurns = <Direction>[];
     final goodTurns = <Direction>[];
     final input = _selector.getInputCondition(state);
     for (var direction in Direction.values) {
       if (direction == Direction.up) {
-        newHead = head - localBoardWidth;
         if (input.upObstacle == 1) {
           continue;
         }
       }
       if (direction == Direction.left) {
-        newHead = head - 1;
         if (input.leftObstacle == 1) {
           continue;
         }
       }
       if (direction == Direction.down) {
-        newHead = head + localBoardWidth;
         if (input.downObstacle == 1) {
           continue;
         }
       }
       if (direction == Direction.right) {
-        newHead = head + 1;
         if (input.rightObstacle == 1) {
           continue;
         }

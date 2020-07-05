@@ -38,9 +38,7 @@ class GameService {
       data.add(TrainingData(inputArray, outputArray));
     }
     print('Got ${data.length} records for training');
-//    for (var i=0; i<20; i++) {
-      perceptron.train(data);
-//    }
+    perceptron.train(data);
     print('network trained');
     print(perceptron.toJson());
   }

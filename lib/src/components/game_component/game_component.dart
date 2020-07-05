@@ -93,7 +93,6 @@ class GameComponent implements OnDestroy {
         final input = _selector.getInputCondition(state);
         final direction = _service.getDirection(input);
         _dispatcher.dispatch(ChangeDirectionAction(direction));
-        //await Future.delayed(Duration(milliseconds: 10));
       }
       _dispatcher.dispatch(TickAction());
       _wasInProgress = true;

@@ -120,17 +120,5 @@ class GameSelector {
     final headY = state.snakeCoords.first ~/ boardWidth;
     final distY = foodY - headY;
     return DirectionState(left: max(-distX.sign, 0), right: max(distX.sign, 0), up: max(-distY.sign, 0), down: max(distY.sign, 0));
-//    if (state.currentDirection == Direction.up) {
-//      return DirectionState(left: max(-distX.sign, 0), right: max(distX.sign, 0), up: max(-distY.sign, 0), down: max(distY.sign, 0));
-//    }
-//    if (state.currentDirection == Direction.down) {
-//      return DirectionState(left: max(distX.sign, 0), right: max(-distX.sign, 0), up: max(distY.sign, 0), down: max(-distY.sign, 0));
-//    }
-//    if (state.currentDirection == Direction.right) {
-//      return DirectionState(left: max(-distY.sign, 0), right: max(distY.sign, 0), up: max(distX.sign, 0), down: max(-distX.sign, 0));
-//    }
-////    if (state.currentDirection == Direction.left) {
-//      return DirectionState(left: max(distY.sign, 0), right: max(-distY.sign, 0), up: max(-distX.sign, 0), down: max(distX.sign, 0));
-////    }
   }
 }

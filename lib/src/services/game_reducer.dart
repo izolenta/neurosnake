@@ -8,7 +8,6 @@ import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/game_phase.dart';
 import 'package:neurosnake/src/services/game_selector.dart';
 import 'package:neurosnake/src/state/game_state.dart';
-import 'package:neurosnake/src/utils/calc_helper.dart';
 import 'package:redux/redux.dart';
 
 import '../constants.dart';
