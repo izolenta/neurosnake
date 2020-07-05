@@ -6,10 +6,8 @@ import 'package:neurosnake/src/actions/start_game_action.dart';
 import 'package:neurosnake/src/actions/tick_action.dart';
 import 'package:neurosnake/src/models/direction.dart';
 import 'package:neurosnake/src/models/game_phase.dart';
-import 'package:neurosnake/src/models/input_condition.dart';
 import 'package:neurosnake/src/services/game_selector.dart';
 import 'package:neurosnake/src/state/game_state.dart';
-import 'package:neurosnake/src/utils/calc_helper.dart';
 import 'package:redux/redux.dart';
 
 import '../constants.dart';
@@ -59,6 +57,9 @@ class GameReducer {
         final snake = _selector.getSnakeBodyIndexes(state);
         final head = snake.first;
         var newHead;
+        final cond = _selector.getInputCondition(state);
+ //       print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
+ //       print('curdir: ${state.currentDirection}');
         switch (state.currentDirection) {
           case Direction.up:
             newHead = head - boardWidth;
@@ -92,10 +93,8 @@ class GameReducer {
         }
         if (s.currentPhase == GamePhase.inProgress) {
           snake.insert(0, newHead);
-          final cond = _selector.getInputCondition(state, newHead);
-          print('${convertInputConditionToArray(cond)} - ${convertDirectionToOutputArray(s.currentDirection)}');
           s.inputConditions.add(cond);
-          s.outputConditions.add(state.currentDirection);
+          s.outputConditions.add(s.currentDirection);
           s.prevDirection = s.currentDirection;
         }
         if (_selector.getFoodIndex(state) != newHead) {
