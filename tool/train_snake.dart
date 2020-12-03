@@ -17,7 +17,6 @@ const localBoardWidth = boardWidth;
 const localBoardHeight = boardHeight;
 
 void main(List args) {
-//  final perceptron = Perceptron.fromJson(jsonData, 4);
   final perceptron = Perceptron([8, 20, 4], 1);
   final _selector = GameSelector();
   final data = <TrainingData>[];
