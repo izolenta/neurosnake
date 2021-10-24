@@ -1,1 +1,1 @@
-pub run webdev serve
+pub run build_runner build
